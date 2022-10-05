@@ -9,6 +9,7 @@ const {
   GraphQLSchema,
   GraphQLList,
   graphqlSync,
+  GraphQLNonNull,
 } = require("graphql")
 
 // Client Type
@@ -76,6 +77,31 @@ const RootQuery = new GraphQLObjectType({
   },
 })
 
+// @ Mutations - add, update, delete
+const mutation = new GraphQLObjectType({
+  name: "Mutation",
+  fields: {
+    addClient: {
+      type: ClientType,
+      args: {
+        name: { type: GraphQLNonNull(GraphQLString) },
+        email: { type: GraphQLNonNull(GraphQLString) },
+        phone: { type: GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parent, args) {  // @ this is where we actually add the client to the db
+        // # we pass in args/ key values these will come from front end 
+        let client = new Client({
+          name: args.name,
+          email: args.email,
+          phone: args.phone
+        })
+        return client.save() // take client we created and saveit to the db
+      }
+    },
+  },
+})
+
 module.exports = new GraphQLSchema({
   query: RootQuery,
+  mutation,
 })
