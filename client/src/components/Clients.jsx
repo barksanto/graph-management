@@ -1,6 +1,7 @@
 import {  useQuery } from '@apollo/client'; 
 import ClientRow from './ClientRow';
-import {GET_CLIENTS} from './queries/clientQueries';
+import { GET_CLIENTS } from './queries/clientQueries';
+import Spinner from './Spinner';
 
 
 
@@ -10,7 +11,7 @@ export default function Clients() {
 
   console.log(data)
 
-  if (loading) return <p>Loading...</p> 
+  if (loading) return <Spinner/>
   if (error) return <p>Something went wrong...</p>
   
   return <>
