@@ -6,7 +6,14 @@ import { GET_CLIENTS } from './queries/clientQueries' // <-- use this to refetch
 export default function ClientRow({ client }) {
   const [deleteClient] = useMutation(DELETE_CLIENT, {
     variables: { id: client.id },
-    refetchQueries: [{query: GET_CLIENTS}] // <-- this is the query we want to refetch after the mutation
+    // refetchQueries: [{query: GET_CLIENTS}] //#  <-- this is the query we want to refetch after the mutation
+    update(cache, { data: { deleteClient } }) {
+      const { clients } = cache.readQuery({ query: GET_CLIENTS })
+      cache.writeQuery({
+        query: GET_CLIENTS,
+        data: { clients: clients.filter((c) => c.id !== deleteClient.id) },
+      })
+    } // Set the data to the response of deleteClient mutation
   })
 
    return (
