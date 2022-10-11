@@ -1,6 +1,6 @@
 import React from 'react'
-
 import logo from "./assets/graphlogo.png";
+
 //client/src/components/assets/graphlogo.png
 function Header() {
   return (
@@ -12,6 +12,7 @@ function Header() {
           <div>Project Mgnt</div>
         </div>
         </a>
+       
       </div>
     </nav>
   )
