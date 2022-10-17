@@ -14,6 +14,7 @@ function Project() {
     <>
       {!loading && !error && (
         <div className="mx-auto w-75 card p-5">
+          <Link to="/" className="btn btn-primary mb-3">Go back</Link>
           <div>{ data.project.name}</div>
         </div>
       )}
