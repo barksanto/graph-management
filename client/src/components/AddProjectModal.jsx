@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { FaList } from 'react-icons/fa';
 import { useMutation, useQuery } from '@apollo/client';
-// import { ADD_PROJECT } from '../mutations/clientMutations';
+import { ADD_PROJECT } from '../mutations/projectMutations';
 import { GET_PROJECTS } from './queries/projectQueries'; // <-- use this to refetch clients after mutation is complete
+import { GET_CLIENTS } from './queries/clientQueries';
+
 
 export default function AddProjectModal() {
   const [name, setName] = useState('');
@@ -10,36 +12,47 @@ export default function AddProjectModal() {
   const [clientId, setClientId] = useState('');
   const [status, setStatus] = useState('new');
 
-  // const [addClient] = useMutation(ADD_CLIENT, {
-  //   variables: { name, email, phone },
-  //   update(cache, { data: { addClient } }) {
-  //     const { clients } = cache.readQuery({ query: GET_CLIENTS });
+  const [addProject] = useMutation(ADD_PROJECT, { // set up mutation, second parameter is an object with variables for project & update cache
+    variables: { name, description, clientId, status },
+    update(cache, { data: { addProject } }) {
+      const { projects } = cache.readQuery({ query: GET_PROJECTS });
 
-  //     cache.writeQuery({
-  //       query: GET_CLIENTS,
-  //       data: { clients: [...clients, addClient] },
-  //     });
-  //   },
-  // });
+      cache.writeQuery({
+        query: GET_PROJECTS,
+        data: { projects: [...projects, addProject] },
+      });
+    }
+  })
+
+  // Get clients for dropdown
+  const { loading, error, data } = useQuery(GET_CLIENTS);
+  // console.log(data)
 
   const onSubmit = (e) => {
     e.preventDefault();
-  console.log('submitted')
-  //   console.log('oi')
-  //   if (name === '' || email === '' || phone === '') {
-  //     return alert('Please fill in all fields');
-  //   }
+    // console.log(name, description, clientId, status)
 
-  //   addClient(name, email, phone);
+    if (name === '' || description === '' || status === '') {
+      return alert('Please fill in all fields');
+    }
+    addProject(name, description, clientId, status);
 
-  //   setName('');
-  //   setEmail('');
-  //   setPhone('');
+    setName('');
+    setDescription('');
+    setStatus('new');
+    setClientId('')
   };
+
+  if (loading) return null;
+  if (error) return "Something went wrong 🤕";
 
   return (
     <>
-      <button
+      {!loading && !error && (
+
+        <>
+          
+        <button
         type='button'
         className='btn btn-primary'
         data-bs-toggle='modal'
@@ -50,8 +63,7 @@ export default function AddProjectModal() {
           <div>New Project</div>
         </div>
       </button>
-
-      <div
+                <div
         className='modal fade'
         id='addProjectModal'
         aria-labelledby='addProjectModalLabel'
@@ -73,7 +85,7 @@ export default function AddProjectModal() {
             <div className='modal-body'>
               <form onSubmit={onSubmit}>
                 <div className='mb-3'>
-                  <label className='form-label'>Name</label>
+                  <label className='form-label'>Project Name</label>
                   <input
                     type='text'
                     className='form-control'
@@ -100,7 +112,17 @@ export default function AddProjectModal() {
                     <option value="completed">Completed</option>
                   </select>
 
-                </div>
+                    </div>
+                    
+                    <div className="mb-3">
+                      <label className='form-label'>Client</label>
+                      <select id="clientId" className="form-select" value={clientId} onChange={(e) => setClientId(e.target.value)}>
+                        <option value="">Select a client</option>
+                        {data.clients.map(client => <option key={client.id} value={client.id}>{client.name}</option>)}
+
+                      </select>
+                    </div>
+                
 
                 <button
                   type='submit'
@@ -114,6 +136,12 @@ export default function AddProjectModal() {
           </div>
         </div>
       </div>
+        </>
+      )}
+      
+
+
+
     </>
   );
 }
