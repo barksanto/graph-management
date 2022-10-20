@@ -49,3 +49,21 @@ code {
   margin-right: 5px;
 }
 
+.zoom-card{
+    transition: transform .5s;
+    background-color: #c4a6ff;
+}
+
+.zoom-card:hover{
+    -ms-transform: scale(1.05);
+      /* IE 9 */
+      -webkit-transform: scale(1.05);
+      /* Safari 3-8 */
+      transform: scale(1.05);
+      border: 1px solid black;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+td{
+  border-bottom: 2px solid black;
+}
