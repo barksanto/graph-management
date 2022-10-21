@@ -19,7 +19,7 @@ function ProjectCard({ project }) {
             <a  className="btn btn-light" href={`/projects/${project.id}`}>View</a>
           </div>
         </div>
-        <p className="small mx-3" >Status:<strong style={{color: statusTextColor}}>{ project.status}</strong></p>
+        <p className="small mx-3" >Status: <strong style={{color: statusTextColor}}>{ project.status}</strong></p>
       </div>
 
     </div>

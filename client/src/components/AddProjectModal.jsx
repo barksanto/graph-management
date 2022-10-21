@@ -73,7 +73,7 @@ export default function AddProjectModal() {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='addProjectModalLabel'>
-                Add Project
+                Add a new Project
               </h5>
               <button
                 type='button'
@@ -98,7 +98,7 @@ export default function AddProjectModal() {
                   <label className='form-label'>Description</label>
                   <textarea
                     className='form-control'
-                    id='description'
+                    id='description' 
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                   >
@@ -107,9 +107,9 @@ export default function AddProjectModal() {
                 <div className='mb-3'>
                   <label className='form-label'>Status</label>
                   <select name="" id="status" className="form-select" value={status} onChange={(e) => setStatus(e.target.value)}>
-                    <option value="new">Not Started</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="completed">Completed</option>
+                    <option value="new">Not Started  🔴</option>
+                    <option value="in-progress">In Progress 🔵</option>
+                    <option value="completed">Completed 🟢</option>
                   </select>
 
                     </div>

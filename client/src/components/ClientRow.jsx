@@ -1,8 +1,9 @@
 import { FaTrash } from 'react-icons/fa'
 import { useMutation } from '@apollo/client'
 import { DELETE_CLIENT } from '../mutations/clientMutations'
+import { useQuery } from "@apollo/client"
 import { GET_CLIENTS } from './queries/clientQueries' // <-- use this to refetch clients after mutation is complete
-import { GET_PROJECT, GET_PROJECTS } from './queries/projectQueries'
+import { GET_USER_PROJECTS, GET_PROJECTS } from './queries/projectQueries'
 
 export default function ClientRow({ client }) {
   const [deleteClient] = useMutation(DELETE_CLIENT, {
@@ -19,8 +20,15 @@ export default function ClientRow({ client }) {
 
   })
 
+
+  const { loading, error, data } = useQuery(GET_USER_PROJECTS)
+
+  const showClientProjects = (projectData, clientId) => {
+    console.log(clientId)
+  }
+
    return (
-      <tr key={client.id}>
+      <tr key={client.id} onClick={() => showClientProjects(data, client.id)}>
         <td>{client.name}</td>
         <td>{client.email}</td>
         <td>{client.phone}</td>

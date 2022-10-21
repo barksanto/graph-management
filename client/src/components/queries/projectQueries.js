@@ -25,7 +25,21 @@ const GET_PROJECT = gql`
       }
     }
   }
-`;
+`
 
+const GET_USER_PROJECTS = gql`
+  {
+    projects {
+      name
+      description
+      status
+      id
+      client {
+        name
+        id
+      }
+    }
+  }
+`
 
-export { GET_PROJECTS, GET_PROJECT }
+export { GET_PROJECTS, GET_PROJECT, GET_USER_PROJECTS }
