@@ -24,20 +24,29 @@ export default function ClientRow({ client }) {
   //   setShowClientProjects(!showClientProjects) // <-- this is the function that toggles the state of showing client projects
   //   console.log(showClientProjects)
   // }
+
   if (data) {
-    console.log(showClientProjects)
+    let uniqueClientProjs = data.projects.filter(project => project.client.id === client.id)
+    uniqueClientProjs.forEach(project => console.log(project.name))
   }
   
   return (
     <>
       {/* {showClientProjects ? <ShowClientProjects clientData={client.id} projectData={ data} /> : null}  */}
-      <tr key={client.id} onClick={() => setShowClientProjects(!showClientProjects)} >
+      <tr key={client.id}  >
         <td>{client.name}</td>
         <td>{client.email}</td>
         <td>{client.phone}</td>
         <td>
           <button className='btn btn-danger btn-sm' onClick={deleteClient}><FaTrash/></button>
-       </td>
+        </td>
+        <td>
+          <p onClick={() => setShowClientProjects(!showClientProjects)}>See {client.name }'s projects</p>
+          <ul>
+
+          {showClientProjects ? data.projects.filter(project => project.client.id === client.id).map(project => <li key={project.id }>{project.name}</li>) : null}
+          </ul>
+    </td>
       </tr>
       </>
       )
