@@ -17,7 +17,6 @@ function Projects() {
           ))}
       </div>
       ) : (<p>No Projects</p>)}
-    {/* <h1>hi</h1> */}
     </>
   
 }
