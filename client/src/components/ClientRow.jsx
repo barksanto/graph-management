@@ -1,11 +1,10 @@
-import { FaTrash } from 'react-icons/fa'
+import { FaTrash, FaEye, AiFillEyeInvisible } from 'react-icons/fa'
 import { useMutation } from '@apollo/client'
 import { DELETE_CLIENT } from '../mutations/clientMutations'
 import { useQuery } from "@apollo/client"
 import { GET_CLIENTS } from './queries/clientQueries' // <-- use this to refetch clients after mutation is complete
 import { GET_USER_PROJECTS, GET_PROJECTS } from './queries/projectQueries'
 import { useState } from 'react'
-// import ShowClientProjects from './ShowClientProjects'
 
 export default function ClientRow({ client }) {
   const [showClientProjects, setShowClientProjects] = useState(false)
@@ -41,12 +40,13 @@ export default function ClientRow({ client }) {
           <button className='btn btn-danger btn-sm' onClick={deleteClient}><FaTrash/></button>
         </td>
         <td>
-          <p onClick={() => setShowClientProjects(!showClientProjects)}>See {client.name }'s projects</p>
+          <p onClick={() => setShowClientProjects(!showClientProjects)}>
+            <button className='btn btn-info btn-sm' >{showClientProjects ? "Hide Projects" : <FaEye />}</button>
+          </p>
           <ul>
-
-          {showClientProjects ? data.projects.filter(project => project.client.id === client.id).map(project => <li key={project.id }>{project.name}</li>) : null}
+           {showClientProjects ? data.projects.filter(project => project.client.id === client.id).map(project => <li key={project.id }>{project.name}</li>) : null}
           </ul>
-    </td>
+        </td>
       </tr>
       </>
       )
